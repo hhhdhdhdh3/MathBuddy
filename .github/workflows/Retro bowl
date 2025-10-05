@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Football Kick Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { background: #2c3e50; color:#fff; font-family:sans-serif; margin:0 }
+    h1 { text-align:center; }
+    #gameCanvas { display:block; margin:0 auto; background:#16a085; border-radius:10px; }
+    #score { text-align:center; font-size:1.5em; margin:20px; }
+    #instructions { text-align:center; margin-bottom:10px; }
+    #kickBtn { display:block; margin:15px auto; padding:10px 30px; font-size:1.2em; background:#e67e22; color:#fff; border:none; border-radius:8px; cursor:pointer; }
+    #kickBtn:active { background:#d35400; }
+  </style>
+</head>
+<body>
+  <h1>Football Kick Game</h1>
+  <div id="instructions">Aim the arrow, then click <b>KICK!</b> for a field goal!</div>
+  <div id="score"></div>
+  <canvas id="gameCanvas" width="400" height="500"></canvas>
+  <button id="kickBtn">KICK!</button>
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    let arrowAngle = -45, angleDir = 1, arrowSpeed = 1.5, isAiming = true, ball = null, score = 0, message = '';
+    function drawField() {
+      ctx.fillStyle = "#16a085";
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(160,25,80,10); // crossbar
+      ctx.fillRect(160,35,10,80); // left post
+      ctx.fillRect(230,35,10,80); // right post
+      ctx.fillRect(195,115,10,30); // center post
+      ctx.font = "bold 1.5em sans-serif";
+      ctx.fillText("FIELD GOAL", 135, 470);
+    }
+    function drawArrow() {
+      ctx.save();
+      ctx.translate(200, 380);
+      ctx.rotate(arrowAngle * Math.PI / 180);
+      ctx.beginPath();
+      ctx.moveTo(0,0); ctx.lineTo(0,-70);
+      ctx.strokeStyle="#e67e22"; ctx.lineWidth=8;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0,-70); ctx.lineTo(-10,-60); ctx.lineTo(10,-60); ctx.closePath();
+      ctx.fillStyle="#e67e22";
+      ctx.fill();
+      ctx.restore();
+    }
+    function drawBall() {
+      if (!ball) return;
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, 12, 0, 2*Math.PI);
+      ctx.fillStyle = "#fff";
+      ctx.fill();
+      ctx.strokeStyle="#e67e22";
+      ctx.lineWidth=3;
+      ctx.stroke();
+    }
+    function drawMessage() {
+      if (message) {
+        ctx.font = "bold 2em sans-serif";
+        ctx.fillStyle = "#e74c3c";
+        ctx.textAlign = "center";
+        ctx.fillText(message, 200, 220);
+        ctx.textAlign = "start";
+      }
+    }
+    function resetKick() {
+      isAiming = true;
+      ball = null;
+      message = '';
+      arrowAngle = -45;
+      angleDir = 1;
+      document.getElementById("kickBtn").disabled = false;
+    }
+    function gameLoop() {
+      drawField();
+      drawArrow();
+      drawBall();
+      drawMessage();
+      if (isAiming) {
+        arrowAngle += arrowSpeed * angleDir;
+        if (arrowAngle > 45 || arrowAngle < -45) angleDir *= -1;
+      }
+      else if (ball) {
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+        ball.vy -= 0.13; // gravity
+        // Check goal
+        if (ball.y < 35 && ball.x > 170 && ball.x < 230) {
+          message = "GOAL!";
+          score++; document.getElementById("score").textContent = "Score: " + score;
+          setTimeout(resetKick, 1300);
+        }
+        // Miss: out of bounds or below posts
+        if (ball.x < 0 || ball.x > 400 || ball.y > 500 || (ball.y < 35 && (ball.x < 170 || ball.x > 230))) {
+          message = "Miss!";
+          setTimeout(resetKick, 1100);
+        }
+      }
+      requestAnimationFrame(gameLoop);
+    }
+    document.getElementById("kickBtn").onclick = function() {
+      if (!isAiming) return;
+      isAiming = false;
+      document.getElementById("kickBtn").disabled = true;
+      let rad = arrowAngle * Math.PI / 180;
+      ball = {x:200, y:380, vx:10*Math.sin(-rad), vy:-10*Math.cos(rad)};
+    };
+    document.getElementById("score").textContent = "Score: " + score;
+    gameLoop();
+  </script>
+</body>
+</html>
