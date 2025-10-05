@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Arcade Games Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background: linear-gradient(135deg, #2d3436, #636e72 80%);
+      color: #fff;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #00b894;
+      padding: 1em 0;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+      letter-spacing: 2px;
+    }
+    .games-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2em;
+      margin: 2em 0;
+    }
+    .game-card {
+      background: #222;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      width: 320px;
+      padding: 1.5em;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .game-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      background: #333;
+    }
+    .game-title {
+      font-size: 1.5em;
+      margin-bottom: 0.5em;
+      color: #00b894;
+    }
+    .game-desc {
+      font-size: 1em;
+      margin-bottom: 1em;
+      color: #dfe6e9;
+    }
+    .play-btn {
+      display: inline-block;
+      padding: 0.75em 2em;
+      background: #00b894;
+      color: #222;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .play-btn:hover {
+      background: #098d73;
+      color: #fff;
+    }
+    @media (max-width: 700px) {
+      .games-list {
+        flex-direction: column;
+        align-items: center;
+      }
+      .game-card {
+        width: 90vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Arcade Games Portal</h1>
+    <p>Play classic and modern web games!</p>
+  </header>
+
+  <section class="games-list">
+    <div class="game-card">
+      <div class="game-title">Retro Bowl</div>
+      <div class="game-desc">Manage your football team and play arcade-style matches. Inspired by the classic Retro Bowl.</div>
+      <!-- Replace the href with the actual game link or embed -->
+      <a class="play-btn" href="#" onclick="alert('Game coming soon!')">Play</a>
+    </div>
+    <div class="game-card">
+      <div class="game-title">Slope</div>
+      <div class="game-desc">Roll down the endless slope, dodge obstacles and beat your high score. Fast-paced and addictive!</div>
+      <!-- Replace the href with the actual game link or embed -->
+      <a class="play-btn" href="#" onclick="alert('Game coming soon!')">Play</a>
+    </div>
+  </section>
+
+  <footer style="text-align:center; padding:2em 0; color:#b2bec3;">
+    &copy; 2025 Arcade Games Portal. All rights reserved.
+  </footer>
+</body>
+</html>
