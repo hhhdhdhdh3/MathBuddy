@@ -1,1 +1,1 @@
-MathBuddy is  games site designed to trick schools with the name 
+MathBuddy is a site to help with math
